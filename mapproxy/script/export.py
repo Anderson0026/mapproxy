@@ -203,6 +203,11 @@ def export_command(args=None):
             'type': 'mbtiles',
             'filename': options.dest,
         }
+    elif options.type == 'geopackage':
+        cache_conf['cache'] = {
+            'type': 'geopackage',
+            'filename': options.dest,
+        }
     elif options.type in ('tc', 'mapproxy'):
         cache_conf['cache'] = {
             'type': 'file',

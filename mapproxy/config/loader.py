@@ -955,6 +955,23 @@ class CacheConfiguration(ConfigurationBase):
             lock_dir=self.lock_dir(),
         )
 
+    def _geopackage_cache(self, grid_conf, file_ext):
+        from mapproxy.cache.geopackage import GeopackageCache
+
+        filename = self.conf['cache'].get('filename')
+        if not filename:
+            filename = self.conf['name'] + '.gpkg'
+        if filename.startswith('.' + os.sep):
+            gpkg_path = self.context.globals.abspath(filename)
+        else:
+            gpkg_path = os.path.join(self.cache_dir(), filename)
+
+        return GeopackageCache(
+            gpkg_path,
+            grid_conf.tile_grid(),
+            lock_dir=self.lock_dir(),
+        )
+
     def _sqlite_cache(self, grid_conf, file_ext):
         from mapproxy.cache.mbtiles import MBTilesLevelCache
 
